@@ -1,0 +1,195 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Milkmachine!</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<style>
+	body {
+	  padding-top: 60px;
+	  padding-bottom: 40px;
+	}
+	</style>
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+</head>
+<body>
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Milkmachine!</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Welcome to Milkmachine!</h1>
+        <p>This is a simple application that helps you keep track of your breast feedings. It shows you a list of your 10 most recent breast feedings, including
+        information on what breast was last, poo's or pee's of your baby and the time and date.</p>
+        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+      </div>
+
+      <div class="header" id="header">
+        <span class="title"></span>
+      </div>
+
+      <!-- Example row of columns--!>
+      <div class="row">
+        <div class="sidebar hero-unit" id="sidebar">
+          <div class="content"></div>
+          <table>
+            <thead class="content">
+              <tr>
+                  <th>Date</th>
+                  <th>Side</th>
+                  <th>Time</th>
+                  <th>Excrements</th>
+                  <th>Remarks</th>
+                  <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody id="content"></tbody>
+          </table>
+    		<ul id="pagination">
+          </ul>
+          <hr>
+          <div class="content" id="editbox"></div>
+        </div>
+      </div>
+
+      <hr>
+
+
+
+      <footer>
+        <p>&copy; CodeMonkeys.nl 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+ <!-- Templates -->
+<script type="text/template" id="tpl-header">
+    <button class="new btn btn-primary btn-large">New Feeding</button>
+</script>
+
+<script type="text/template" id="resultItemTemplate">
+  <td><%= $.format.date(new Date(date), 'yyyy-MM-dd') %></td><td> <%= side %></td><td> <%= $.format.date( new Date((new Date(time)).getTime() + ((new Date(time)).getTimezoneOffset() * 60000)), 'HH:mm') %></td><td> <%= excrements %></td><td> <%= remarks %></td></td>
+  <td><a href='#feedings/<%= _id %>'>edit</a></td>
+</script>
+
+<script type="text/template" id="tpl-feeding-details">
+    <div class="form-left-col">
+        <input type="hidden" id="wineId" name="_id" value="<%= _id %>"
+        disabled />
+        <label>Date:</label>
+        <input type="date" id="date" name="date" value="<%= $.format.date(new Date(date), 'yyyy-MM-dd') %>" required/>
+        <label>Time:</label>
+        <input type="time" id="time" name="time" value="<%= $.format.date( new Date((new Date(time)).getTime() + ((new Date(time)).getTimezoneOffset() * 60000)), 'HH:mm') %>"/>
+        <label>Excrements:</label>
+        <input type="text" id="excrements" name="excrements" value="<%= excrements %>"/>
+        <label>Side:</label>
+        <input type="text" id="side" name="side" value="<%= side %>"/>
+        <label>Remarks:</label>
+        <input type="text" id="remarks" name="remarks" value="<%= remarks %>"/></br>
+        <button class="save btn btn-primary btn-large">Save</button>
+        <button class="delete btn btn-large">Delete</button>
+        <button class="close">Close (No Save)</button>
+    </div>
+</script>
+
+		<!--sample template for pagination UI-->
+
+		<script type="text/html" id="tmpClientPagination">
+		 <div class="breadcrumb">
+
+			<span class="cell last pages">
+				<% if (currentPage != 1) { %>
+					<a href="#" class="first">First</a>
+					<a href="#" class="prev">Previous</a>
+				<% } %>
+				<% _.each (pageSet, function (p) { %>
+					<% if (currentPage == p) { %>
+						<span class="page selected"><%= p %></span>
+					<% } else { %>
+						<a href="#" class="page"><%= p %></a>
+					<% } %>
+				<% }); %>
+				<% if (lastPage != currentPage && lastPage != 0) { %>
+					<a href="#" class="next">Next</a>
+					<a href="#" class="last">Last</a>
+				<% } %>
+			</span>
+
+			<span class="divider">/</span>
+			
+			<span class="cell first records">
+				<span class="current"><%= startRecord %></span>
+				-
+				<span class="perpage"><%= endRecord %></span>
+				of
+				<span class="total"><%= totalRecords %></span>
+							shown
+			</span>
+
+		  </div>
+		</script>
+
+
+		
+		<!-- scripts-->
+
+    <!-- libs -->
+    <script src="js/libs/jquery-1.7.2.min.js"></script>
+    <script src="js/libs/jquery-ui-1.7.3.custom.min.js"></script>
+    <script src="js/libs/underscore-min.js"></script>
+    <script src="js/libs/backbone.js"></script>
+    <script src="js/libs/bootstrap/bootstrap.min.js"></script>
+    <script src="js/libs/jquery.dateFormat-1.0.js"></script>
+
+    <!-- main app -->
+    <script src="app.js"></script>  
+
+    <!-- Backbone.Paginator -->
+    <script src="js/libs/backbone.paginator.js"></script>
+
+		<!--Models/Collections-->
+		<script src="models/Feeding.js"></script>
+		<script src="collections/PaginatedCollection.js"></script>
+
+		<!--Views-->
+		<script src="views/ResultView.js"></script>
+		<script src="views/PaginationView.js"></script>
+		<script src="views/ItemView.js"></script>
+    <script src="views/HeaderView.js"></script>
+		<script src="views/AppView.js"></script>
+
+    <!-- router -->
+    <script src="router/AppRouter.js"></script>
+
+</body>
+</html>

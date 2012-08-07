@@ -1,0 +1,24 @@
+Default: &defaults
+  user: 
+  password: 
+  host: localhost
+  port: 27017
+  database: yesod-milk
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: yesod-milk_test
+  <<: *defaults
+
+Staging:
+  database: yesod-milk_staging
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: yesod-milk_production
+  poolsize: 100
+  <<: *defaults
