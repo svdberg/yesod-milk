@@ -14,5 +14,7 @@ import Yesod.Auth
 -- inclined, or create a single monolithic file.
 getHomeR :: Handler RepHtml
 getHomeR = do
-           mauth <- requireAuthId
-           redirect $ StaticR index_html --this should redirect to the loginpage first...
+           mauth <- maybeAuthId
+           defaultLayout $ do
+             setTitle "Welcome To MilkMachine!"
+             $(widgetFile "homepage")
