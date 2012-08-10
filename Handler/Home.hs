@@ -14,7 +14,7 @@ import Yesod.Auth
 -- inclined, or create a single monolithic file.
 getHomeR :: Handler RepHtml
 getHomeR = do
-           mauth <- maybeAuthId
+           mauth <- maybeAuth
            defaultLayout $ do
              setTitle "Welcome To MilkMachine!"
              $(widgetFile "homepage")

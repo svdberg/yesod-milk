@@ -1,13 +1,8 @@
-$doctype 5
     <div class="container">
       <h1>_{MsgHello}
       <div>
-             $maybe uid <- mauth
-                       <p>Logged in as:  -- <a href=@{AuthR LogoutR} >LogOut?
-                       <p>Goto <a href=@{StaticR index_html}>MilkMachine!
+             $maybe Entity _ uid <- mauth
+                       <p>Logged in as: #{show (userIdent uid)}.  <a href=@{AuthR LogoutR} >LogOut?</a>
+                       <p>Goto <a href=@{StaticR index_html}>MilkMachine!</a>
              $nothing
-                       <p>Not logged in: <a href=@{AuthR LoginR} >Login?
-
-
-      <footer>
-        <p>2012 CodeMonkeys.nl
+                       <p>Not logged in: <a href=@{AuthR LoginR} >Login?</a>

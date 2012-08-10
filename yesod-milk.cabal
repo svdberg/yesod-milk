@@ -30,6 +30,7 @@ library
                      Settings.Development
                      Handler.Home
                      Handler.Feeding
+                     Handler.User
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -82,6 +83,7 @@ library
                  , old-locale
                  , http-types
                  , base64-bytestring
+                 , ghc-prim
 
 
 
