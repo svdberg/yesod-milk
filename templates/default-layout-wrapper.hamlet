@@ -19,9 +19,28 @@
         \<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         \<![endif]-->
 
+        <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="css/style.css">
+
         <script>
           document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
     <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar">
+            <span class="icon-bar">
+            <span class="icon-bar">
+
+
+          <a class="brand" href="#">Milkmachine!
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a>
+              <li><a href="#about">About</a>
+              <li><a href="#contact">Contact</a>
+
         <div class="container">
             <header>
             <div id="main" role="main">

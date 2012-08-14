@@ -3,6 +3,6 @@
       <div>
              $maybe Entity _ uid <- mauth
                        <p>Logged in as: #{show (userIdent uid)}.  <a href=@{AuthR LogoutR} >LogOut?</a>
-                       <p>Goto <a href=@{StaticR index_html}>MilkMachine!</a>
+                       <p>Goto <a href=@{StaticR index_html} >MilkMachine!</a>
              $nothing
                        <p>Not logged in: <a href=@{AuthR LoginR} >Login?</a>

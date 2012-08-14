@@ -52,13 +52,13 @@ library
                 NoMonomorphismRestriction
 
     build-depends: base                          >= 4          && < 5
-                 , yesod-platform                >= 1.0        && < 1.1
-                 , yesod                         >= 1.0        && < 1.1
-                 , yesod-core                    >= 1.0        && < 1.1
+                 , yesod-platform                >= 1.0        && <= 1.1
+                 , yesod                         >= 1.0        && <= 1.1
+                 , yesod-core                    >= 1.0        && <= 1.1
                  , yesod-auth
-                 , yesod-static                  >= 1.0        && < 1.1
-                 , yesod-default                 >= 1.0        && < 1.1
-                 , yesod-form                    >= 1.0        && < 1.1
+                 , yesod-static                  >= 1.0        && <= 1.1
+                 , yesod-default                 >= 1.0        && <= 1.1
+                 , yesod-form                    >= 1.0        && <= 1.1
                  , yesod-test                    >= 0.2        && < 0.3
                  , clientsession                 >= 0.7.3      && < 0.8
                  , bytestring                    >= 0.9        && < 0.10
@@ -67,10 +67,10 @@ library
                  , persistent                    >= 0.9        && < 0.10
                  , persistent-mongoDB            >= 0.9        && < 0.10
                  , template-haskell
-                 , hamlet                        >= 1.0        && < 1.1
-                 , shakespeare-css               >= 1.0        && < 1.1
-                 , shakespeare-js                >= 1.0        && < 1.1
-                 , shakespeare-text              >= 1.0        && < 1.1
+                 , hamlet                        >= 1.0        && <= 1.1
+                 , shakespeare-css               >= 1.0        && <= 1.1
+                 , shakespeare-js                >= 1.0        && <= 1.1
+                 , shakespeare-text              >= 1.0        && <= 1.1
                  , hjsmin                        >= 0.1        && < 0.2
                  , monad-control                 >= 0.3        && < 0.4
                  , wai-extra                     >= 1.2        && < 1.3
