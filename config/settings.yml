@@ -1,7 +1,7 @@
 Default: &defaults
   host: "*4" # any IPv4 host
   port: 3000
-  approot: "http://localhost:3000"
+  approot: "http://localhost:3000/"
   copyright: Copyright CodeMonkeys.nl 2011
   #analytics: UA-YOURCODE
 
@@ -15,5 +15,8 @@ Staging:
   <<: *defaults
 
 Production:
+  port: 3010
   #approot: "http://www.example.com"
+  copyright: Copyright CodeMonkeys.nl 2012
+  approot: "http://milkit.dyndns.org/new"
   <<: *defaults
