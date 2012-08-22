@@ -1,26 +1,26 @@
 ( function ( views ){
 
-	views.ItemView = Backbone.View.extend({
-    tagName:"tr",
-		template: _.template($('#tpl-feeding-details').html()),
+        views.ItemView = Backbone.View.extend({
+            tagName:"tr",
+            template: _.template($('#tpl-feeding-details').html()),
 
-		initialize: function() {
-			this.model.bind('change', this.render, this);
-			this.model.bind('destroy', this.remove, this);
-		},
+                initialize: function() {
+                        this.model.bind('change', this.render, this);
+                        this.model.bind('destroy', this.remove, this);
+                },
 
-		render : function () {
-			this.$el.html(this.template(this.model.toJSON()));
-			return this;
-		},
-    
+                render : function () {
+                        this.$el.html(this.template(this.model.toJSON()));
+                        return this;
+                },
+
     events:{
         "change input":"change",
         "click .save":"saveFeeding",
         "click .delete":"deleteFeeding",
         "click .close":"closeFeeding"
     },
- 
+
     change:function (event) {
         var target = event.target;
         console.log('changing ' + target.id + ' from: ' + target.defaultValue + ' to: ' + target.value);
@@ -29,7 +29,7 @@
         // change[target.name] = target.value;
         // this.model.set(change);
     },
- 
+
     saveFeeding:function () {
         this.model.set({
             date:$('#date').val(),
@@ -53,7 +53,7 @@
         } else {
           console.log('existing model with id: ' + this.model.id);
           this.model.save(this.model, {
-            success: function(){ 
+            success: function(){
               app.feedingView.close();
               app.navigate('#', true);
             },
@@ -63,13 +63,14 @@
         }
         return false;
     },
- 
+
     deleteFeeding:function () {
         this.model.destroy({
             success:function () {
                 alert('Feeding deleted successfully');
                 window.history.back();
-            }
+            },
+            error: function(){ alert('Something went wrong while deleting the feeding');
         });
         return false;
     },
@@ -79,12 +80,12 @@
       app.feedingView.close();
       app.navigate('#');
     },
- 
+
     close:function () {
         $(this.el).unbind();
         $(this.el).empty();
     }
 
-	});
+        });
 
 })( app.views );

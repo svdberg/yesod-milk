@@ -12,7 +12,7 @@ getFeedingR fid = runDB (get404 fid) >>= jsonToRepJson . Entity fid
 
 deleteFeedingR :: FeedingId -> Handler ()
 deleteFeedingR fid = do --incomming Id is Base64, mongo expects Base16
-                  runDB (delete fid)
+                  runDB $ delete fid
                   sendResponseStatus status200 ()
 
 putFeedingR :: FeedingId -> Handler ()
