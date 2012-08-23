@@ -77,10 +77,10 @@ instance Yesod App where
     approot = ApprootMaster $ appRoot . settings
 
     -- Store session data on the client in encrypted cookies,
-    -- default session idle timeout is 4 hours
+    -- default session idle timeout is 8 hours
     makeSessionBackend _ = do
         key <- getKey "config/client_session_key.aes"
-        return . Just $ clientSessionBackend key (4 * 60)
+        return . Just $ clientSessionBackend key (8 * 60)
 
     defaultLayout widget = do
         master <- getYesod
