@@ -114,16 +114,28 @@ $.getJSON("/user",
 
 <script type="text/template" id="tpl-feeding-details">
     <div class="form-left-col">
-        <input type="hidden" id="wineId" name="_id" value="<%= _id %>"
+        <input type="hidden" id="feedingId" name="_id" value="<%= _id %>"
         disabled />
         <label>Date:</label>
         <input type="date" id="date" name="date" value="<%= $.format.date(new Date(date), 'yyyy-MM-dd') %>" required/>
         <label>Time:</label>
         <input type="time" id="time" name="time" value="<%= $.format.date( new Date((new Date(time)).getTime() + ((new Date(time)).getTimezoneOffset() * 60000)), 'HH:mm') %>"/>
         <label>Excrements:</label>
-        <input type="text" id="excrements" name="excrements" value="<%= excrements %>"/>
+        <select id="excrements" name="excrements" value="<%= excrements %>">
+          <option value=" " <% if (excrements == " ") { %>SELECTED<% } %>>None</option>
+          <option value="P" <% if (excrements == "P") { %>SELECTED<% } %>>Pee</option>
+          <option value="B" <% if (excrements == "B") { %>SELECTED<% } %>>Poo</option>
+          <option value="PB" <% if (excrements == "PB") { %>SELECTED<% } %>>Both Pee & Poo</option>
+        </select>
         <label>Side:</label>
-        <input type="text" id="side" name="side" value="<%= side %>"/>
+
+        <select id="side" name="side">
+          <option value="L" <% if (side == "L") { %>SELECTED<% } %>>Left</option>
+          <option value="R" <% if (side == "R") { %>SELECTED<% } %>>Right</option>
+          <option value="LR" <% if (side == "LR") { %>SELECTED<% } %>>Left, followed by Right</option>
+          <option value="RL" <% if (side == "RL") { %>SELECTED<% } %>>Right, followed by Left</option>
+          <option value="B" <% if (side == "B") { %>SELECTED<% } %>>Bottle</option>
+        </select>
         <label>Remarks:</label>
         <input type="text" id="remarks" name="remarks" value="<%= remarks %>"/></br>
         <button class="save btn btn-primary btn-large">Save</button>
