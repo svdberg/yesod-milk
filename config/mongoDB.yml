@@ -1,0 +1,29 @@
+Default: &defaults
+  user: milkmachine
+  password: milkmachine
+  host: localhost
+  database: milkmachine
+  connections: 10
+
+Development:
+  user: test
+  password: test
+  host: ds039437.mongolab.com
+  database: yesod-milk-production
+  port: 39437
+  <<: *defaults
+
+Testing:
+  database: milkmachine_test
+  <<: *defaults
+
+Staging:
+  database: milkmachine_staging
+  connections: 100
+  <<: *defaults
+
+Production:
+  database: milkmachine_production
+  connections: 100
+  host: localhost
+  <<: *defaults

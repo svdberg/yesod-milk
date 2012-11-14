@@ -1,0 +1,14 @@
+User
+    ident Text
+    password Text Maybe
+    UniqueUser ident
+    deriving Show
+Feeding
+    date UTCTime
+    side Text
+    time UTCTime
+    excrements Text
+    remarks Text
+    userId UserId
+    deriving Show
+ -- By default this file is used in Model.hs (which is imported by Foundation.hs)
