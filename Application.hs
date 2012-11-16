@@ -14,11 +14,12 @@ import Yesod.Default.Handlers
 import Network.Wai.Middleware.RequestLogger (logStdout, logStdoutDev)
 import qualified Database.Persist.Store
 import Network.HTTP.Conduit (newManager, def)
+import Database.Persist.GenericSql (runMigration)
 
 import Data.HashMap.Strict as H
-Data.Aeson.Types as AT
+import Data.Aeson.Types as AT
 #ifndef DEVELOPMENT
-  import qualified Web.Heroku
+import qualified Web.Heroku
 #endif
 
 
@@ -66,8 +67,8 @@ getApplicationDev =
         { csParseExtra = parseExtra
         }
 
-makeFoundation :: AppConfig DefaultEnv Extra -> Logger -> IO App
-makeFoundation conf setLogger = do
+makeFoundation :: AppConfig DefaultEnv Extra -> IO App
+makeFoundation conf = do
   manager <- newManager def
   s <- staticSite
   hconfig <- loadHerokuConfig
@@ -75,8 +76,8 @@ makeFoundation conf setLogger = do
             (Database.Persist.Store.loadConfig . combineMappings hconfig) >>=
             Database.Persist.Store.applyEnv
   p <- Database.Persist.Store.createPoolConfig (dbconf :: Settings.PersistConfig)
-        Database.Persist.Store.runPool dbconf (runMigration migrateAll) p
-        return $ App conf setLogger s p manager dbconf
+  Database.Persist.Store.runPool dbconf (runMigration migrateAll) p
+  return $ App conf s p manager dbconf
 
 #ifndef DEVELOPMENT
 canonicalizeKey :: (Text, val) -> (Text, val)
@@ -84,17 +85,17 @@ canonicalizeKey ("dbname", val) = ("database", val)
 canonicalizeKey pair = pair
 
 toMapping :: [(Text, Text)] -> AT.Value
-toMapping xs = AT.Object $ M.fromList $ map (\(key, val) -> (key, AT.String val)) xs
+toMapping xs = AT.Object $ H.fromList $ Import.map (\(key, val) -> (key, AT.String val)) xs
 #endif
 
 combineMappings :: AT.Value -> AT.Value -> AT.Value
-combineMappings (AT.Object m1) (AT.Object m2) = AT.Object $ m1 `M.union` m2
+combineMappings (AT.Object m1) (AT.Object m2) = AT.Object $ m1 `H.union` m2
 combineMappings _ _ = error "Data.Object is not a Mapping."
 
 loadHerokuConfig :: IO AT.Value
 loadHerokuConfig = do
-  #ifdef DEVELOPMENT
+#ifdef DEVELOPMENT
     return $ AT.Object M.empty
-  #else
-    Web.Heroku.dbConnParams >>= return . toMapping . map canonicalizeKey
-  #endif
+#else
+    Web.Heroku.dbConnParams >>= return . toMapping . Import.map canonicalizeKey
+#endif

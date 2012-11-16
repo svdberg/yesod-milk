@@ -5,7 +5,7 @@ import Prelude
 import Yesod
 import Data.Text (Text)
 import Database.Persist.Quasi
-import Database.Persist.MongoDB hiding (master)
+--import Database.Persist.MongoDB hiding (master)
 import Language.Haskell.TH.Syntax
 import Data.Time
 import Data.Aeson hiding (object)
@@ -16,7 +16,12 @@ import System.Locale
 -- You can find more information on persistent and how to declare entities
 -- at:
 -- http://www.yesodweb.com/book/persistent/
+{- mongo settings: -}
+{-
 share [mkPersist MkPersistSettings { mpsBackend = ConT ''Action }, mkMigrate "migrateAll"]
+    $(persistFileWith lowerCaseSettings "config/models")
+-}
+share [mkPersist sqlSettings, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
 
 
