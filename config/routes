@@ -6,7 +6,7 @@
 
 /user UserR GET
 
-/api/feeding/#FeedingId FeedingsR POST PUT GET DELETE
-/api/feeding FeedingR GET
+/api/feeding FeedingsR POST GET
+/api/feeding/#FeedingId FeedingR GET DELETE PUT
 
-/ HomeR GET POST
+/ HomeR GET

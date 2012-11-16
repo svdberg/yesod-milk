@@ -16,4 +16,5 @@ Staging:
 
 Production:
   approot: "http://milkmachine.herokuapp.com"
+  port: 80
   <<: *defaults
