@@ -1,0 +1,24 @@
+Default: &defaults
+  user: milkmachine
+  password: milkmachine
+  host: localhost
+  port: 5432
+  database: milkmachine
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: milkmachine_test
+  <<: *defaults
+
+Staging:
+  database: milkmachine_staging
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: milkmachine_production
+  poolsize: 100
+  <<: *defaults
