@@ -23,16 +23,19 @@ putFeedingR fid =  do --incomming Id is Base64, mongo expects Base16
 
 postFeedingsR :: Handler RepJson
 postFeedingsR  = do
-      muser <- maybeAuth
+      Entity uid u <- requireAuth
       parsedFeeding <- parseJsonBody_ --get content as JSON
-      fid <- runDB $ insert parsedFeeding --store in mongo
-      let userId = getUserId muser
-      runDB $ update fid [ FeedingUserId =. userId ] --link the feeding to the user
+      let feedingWithUser = addUserToFeeding uid parsedFeeding
+      fid <- runDB $ insert feedingWithUser --store in database
       sendResponseCreated $ FeedingR fid --return the id
+
+addUserToFeeding :: UserId -> Feeding -> Feeding
+addUserToFeeding uid Feeding {feedingDate=date, feedingSide=side, feedingTime=time, feedingExcrements=ex, feedingRemarks=remarks} = Feeding date side time ex remarks uid
+
 
 getUserId :: Maybe (Entity t) -> Key (PersistEntityBackend t) t
 getUserId userEntity = case userEntity of
-  Just (Entity k s ) -> k
+  Just (Entity k _ ) -> k
 
 getFeedingsR :: Handler RepJson
 getFeedingsR = do

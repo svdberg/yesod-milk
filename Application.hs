@@ -95,7 +95,7 @@ combineMappings _ _ = error "Data.Object is not a Mapping."
 loadHerokuConfig :: IO AT.Value
 loadHerokuConfig = do
 #ifdef DEVELOPMENT
-    return $ AT.Object M.empty
+    return $ AT.Object H.empty
 #else
     Web.Heroku.dbConnParams >>= return . toMapping . Import.map canonicalizeKey
 #endif

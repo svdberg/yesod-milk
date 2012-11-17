@@ -1,6 +1,6 @@
 Default: &defaults
   user: milkmachine
-  password: milkmachine
+  password:
   host: localhost
   port: 5432
   database: milkmachine
