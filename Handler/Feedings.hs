@@ -32,7 +32,6 @@ postFeedingsR  = do
 addUserToFeeding :: UserId -> Feeding -> Feeding
 addUserToFeeding uid Feeding {feedingDate=date, feedingSide=side, feedingTime=time, feedingExcrements=ex, feedingRemarks=remarks} = Feeding date side time ex remarks uid
 
-
 getUserId :: Maybe (Entity t) -> Key (PersistEntityBackend t) t
 getUserId userEntity = case userEntity of
   Just (Entity k _ ) -> k
