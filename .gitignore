@@ -1,7 +1,9 @@
 cabal-dev/*
+yesod-devel/*
 dist/
 static/tmp/
 config/client_session_key.aes
+*.dump
 *.hi
 *.o
 *.sqlite3
