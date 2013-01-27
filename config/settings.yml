@@ -1,8 +1,8 @@
 Default: &defaults
   host: "*4" # any IPv4 host
-  port: 3000
-  approot: "http://localhost:3000"
-  copyright: Copyright CodeMonkeys.nl 2011
+  port: 3001
+  approot: "http://localhost:3001"
+  copyright: Insert copyright statement here
   #analytics: UA-YOURCODE
 
 Development:
@@ -15,7 +15,7 @@ Staging:
   <<: *defaults
 
 Production:
-  port: 3010
-  copyright: Copyright CodeMonkeys.nl 2012
-  approot: "http://milkit.dyndns.org/new"
+  approot: "http://milkmachine.herokuapp.com"
+  port: 80
+  copyright: CodeMonkeys 2012
   <<: *defaults

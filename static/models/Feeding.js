@@ -11,8 +11,8 @@
           "userid":null
     },
 
-                // the URL (or base URL) for the service
-                urlRoot: '../../api/feeding'
+      // the URL (or base URL) for the service
+      urlRoot: '../../api/feeding'
   });
 
 })( app.models );

@@ -1,16 +1,4 @@
-module Foundation
-    ( App (..)
-    , Route (..)
-    , AppMessage (..)
-    , resourcesApp
-    , Handler
-    , Widget
-    , Form
-    , maybeAuth
-    , requireAuth
-    , module Settings
-    , module Model
-    ) where
+module Foundation where
 
 import Prelude
 import Yesod
@@ -20,12 +8,13 @@ import Yesod.Auth.BrowserId
 import Yesod.Auth.GoogleEmail
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
-import Yesod.Logger (Logger, logMsg, formatLogText)
 import Network.HTTP.Conduit (Manager)
 import qualified Settings
+import Settings.Development (development)
 import qualified Database.Persist.Store
 import Settings.StaticFiles
-import Database.Persist.MongoDB
+--import Database.Persist.MongoDB hiding (master)
+import Database.Persist.GenericSql
 import Settings (widgetFile, Extra (..))
 import Model
 import Text.Jasmine (minifym)
@@ -38,7 +27,6 @@ import Text.Hamlet (hamletFile)
 -- access to the data present here.
 data App = App
     { settings :: AppConfig DefaultEnv Extra
-    , getLogger :: Logger
     , getStatic :: Static -- ^ Settings for static file serving.
     , connPool :: Database.Persist.Store.PersistConfigPool Settings.PersistConfig -- ^ Database connection pool.
     , httpManager :: Manager
@@ -77,10 +65,10 @@ instance Yesod App where
     approot = ApprootMaster $ appRoot . settings
 
     -- Store session data on the client in encrypted cookies,
-    -- default session idle timeout is 8 hours
+    -- default session idle timeout is 120 minutes
     makeSessionBackend _ = do
         key <- getKey "config/client_session_key.aes"
-        return . Just $ clientSessionBackend key (8 * 60)
+        return . Just $ clientSessionBackend key (24 * 60)
 
     defaultLayout widget = do
         master <- getYesod
@@ -107,23 +95,6 @@ instance Yesod App where
     -- The page to be redirected to when authentication is required.
     authRoute _ = Just $ AuthR LoginR
 
-    -- Function to determine if a user is authorized for a certain action.
-    isAuthorized FeedingsR True = do
-        mauth <- maybeAuth
-        case mauth of
-            Nothing -> return AuthenticationRequired
-            Just _  -> return Authorized
-
-    isAuthorized (FeedingR _) True = do
-        mauth <- maybeAuth
-        case mauth of
-            Nothing -> return AuthenticationRequired
-            Just _  -> return Authorized
-    isAuthorized _ _ = return Authorized
-
-    messageLogger y loc level msg =
-      formatLogText (getLogger y) loc level msg >>= logMsg (getLogger y)
-
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
     -- expiration dates to be set far in the future without worry of
@@ -133,9 +104,14 @@ instance Yesod App where
     -- Place Javascript at bottom of the body tag so the rest of the page loads first
     jsLoader _ = BottomOfBody
 
+    -- What messages should be logged. The following includes all messages when
+    -- in development, and warnings and errors in production.
+    shouldLog _ _source level =
+        development || level == LevelWarn || level == LevelError
+
 -- How to run database actions.
 instance YesodPersist App where
-    type YesodPersistBackend App = Action
+    type YesodPersistBackend App = SqlPersist -- Action
     runDB f = do
         master <- getYesod
         Database.Persist.Store.runPool
@@ -167,6 +143,10 @@ instance YesodAuth App where
 -- achieve customized and internationalized form validation messages.
 instance RenderMessage App FormMessage where
     renderMessage _ _ = defaultFormMessage
+
+-- | Get the 'Extra' value, used to hold data from the settings.yml file.
+getExtra :: Handler Extra
+getExtra = fmap (appExtra . settings) getYesod
 
 -- Note: previous versions of the scaffolding included a deliver function to
 -- send emails. Unfortunately, there are too many different options for us to

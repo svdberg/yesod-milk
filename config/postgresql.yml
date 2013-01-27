@@ -1,16 +1,12 @@
 Default: &defaults
   user: milkmachine
-  password: milkmachine
+  password:
   host: localhost
+  port: 5432
   database: milkmachine
-  connections: 10
+  poolsize: 10
 
 Development:
-  user: test
-  password: test
-  host: ds039437.mongolab.com
-  database: yesod-milk-production
-  port: 39437
   <<: *defaults
 
 Testing:
@@ -19,11 +15,10 @@ Testing:
 
 Staging:
   database: milkmachine_staging
-  connections: 100
+  poolsize: 100
   <<: *defaults
 
 Production:
   database: milkmachine_production
-  connections: 100
-  host: localhost
+  poolsize: 100
   <<: *defaults

@@ -71,7 +71,7 @@
                 window.history.back();
             },
             error: function(){ alert('Something went wrong while deleting the feeding');
-	    }
+            }
         });
         return false;
     },
@@ -87,6 +87,6 @@
         $(this.el).empty();
     }
 
-        });
+});
 
 })( app.views );

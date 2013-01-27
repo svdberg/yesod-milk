@@ -1,31 +1,33 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Model where
 
-
 import Prelude
 import Yesod
-import Data.Time
 import Data.Text (Text)
 import Database.Persist.Quasi
-import Database.Persist.MongoDB
+--import Database.Persist.MongoDB hiding (master)
 import Language.Haskell.TH.Syntax
-import Data.Aeson as A hiding (object)
+import Data.Time
+import Data.Aeson hiding (object)
 import Control.Applicative ((<$>), (<*>))
-import Data.Time.Format
 import System.Locale
-import Data.ByteString.Base64 as B64
-import qualified Data.Text.Encoding as TE
 
 -- You can define all of your database entities in the entities file.
 -- You can find more information on persistent and how to declare entities
 -- at:
 -- http://www.yesodweb.com/book/persistent/
+{- mongo settings: -}
+{-
 share [mkPersist MkPersistSettings { mpsBackend = ConT ''Action }, mkMigrate "migrateAll"]
     $(persistFileWith lowerCaseSettings "config/models")
+-}
+share [mkPersist sqlSettings, mkMigrate "migrateAll"]
+    $(persistFileWith lowerCaseSettings "config/models")
+
 
 instance ToJSON (Entity Feeding) where
     toJSON (Entity fid (Feeding date side time excrements remarks userid)) = object
-        [ "_id" .= toPathPiece fid--fid -- (A.String $ TE.decodeUtf8 $ B64.encode fid) --
+        [ "_id" .= toPathPiece fid
         , "date" .= date
         , "side" .= side
         , "time" .= time

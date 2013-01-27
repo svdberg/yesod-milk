@@ -6,6 +6,7 @@ import Import
 import Network.HTTP.Types (status201, status204, status200)
 import Data.Maybe
 import Data.Aeson
+import Yesod.Auth
 
 {- This module contains the User resource -}
 

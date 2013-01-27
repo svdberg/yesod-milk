@@ -135,6 +135,7 @@ $.getJSON("/user",
           <option value="LR" <% if (side == "LR") { %>SELECTED<% } %>>Left, followed by Right</option>
           <option value="RL" <% if (side == "RL") { %>SELECTED<% } %>>Right, followed by Left</option>
           <option value="B" <% if (side == "B") { %>SELECTED<% } %>>Bottle</option>
+          <option value="P" <% if (side == "P") { %>SELECTED<% } %>>Hapje</option>
         </select>
         <label>Remarks:</label>
         <input type="text" id="remarks" name="remarks" value="<%= remarks %>"/></br>
